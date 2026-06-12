@@ -1,4 +1,6 @@
+import styles from "./page.module.css"
 import Header from "@/components/Header";
+import MemoForm from "@/components/MemoForm";
 import MemoCard from "@/components/MemoCard";
 export default function Home() {
   const memos = [
@@ -19,8 +21,9 @@ export default function Home() {
     }
   ]
   return (
-    <div>
+    <div className={styles.page}>
       <Header />
+      <MemoForm />
       {memos.map((memo) => (
         <MemoCard
         key={memo.id}
