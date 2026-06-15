@@ -1,29 +1,32 @@
+"use client";
 import styles from "./page.module.css"
 import Header from "@/components/Header";
 import MemoForm from "@/components/MemoForm";
 import MemoCard from "@/components/MemoCard";
+import { memo, useState } from "react";
+import { title } from "process";
 export default function Home() {
-  const memos = [
-    {
-      id: 1,
-      title:"買い物",
-      memoText:"牛乳を買う"
-    },
-    {
-      id: 2,
-      title:"仕事",
-      memoText:"週次報告をする"
-    },
-    {
-      id: 3,
-      title:"勉強",
-      memoText:"Reactを学ぶ"
+  type Memo = {
+    id: number;
+    title: string;
+    memoText: string;
+  }
+  function hello(title:string,memoText:string){
+    const newMemo = {
+      id: memos.length + 1,
+      title: title,
+      memoText: memoText
     }
-  ]
+    setMemos([
+      ...memos,
+      newMemo
+    ]);
+  }
+  const [memos , setMemos] = useState<Memo[]>([])
   return (
     <div className={styles.page}>
       <Header />
-      <MemoForm />
+      <MemoForm hello={hello} />
       {memos.map((memo) => (
         <MemoCard
         key={memo.id}
