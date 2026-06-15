@@ -11,7 +11,7 @@ export default function Home() {
     title: string;
     memoText: string;
   }
-  function hello(title:string,memoText:string){
+  function handleAddMemo(title:string,memoText:string){
     const newMemo = {
       id: memos.length + 1,
       title: title,
@@ -22,16 +22,23 @@ export default function Home() {
       newMemo
     ]);
   }
+  function handleDelMemo(id:number){
+    setMemos(
+      memos.filter(memo => memo.id !== id)
+    )
+  }
   const [memos , setMemos] = useState<Memo[]>([])
   return (
     <div className={styles.page}>
       <Header />
-      <MemoForm hello={hello} />
+      <MemoForm handleAddMemo={handleAddMemo} />
       {memos.map((memo) => (
         <MemoCard
         key={memo.id}
+        id={memo.id}
         title={memo.title}
         memoText={memo.memoText}
+        handleDelMemo={handleDelMemo}
         />
       )
     )}

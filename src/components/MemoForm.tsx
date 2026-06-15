@@ -2,12 +2,12 @@
 import { useState } from "react"
 import styles from "./MemoForm.module.css"
 type MemoFormProps = {
-  hello: (
+  handleAddMemo: (
     title: string,
     memoText: string
   ) => void
 }
-export default function MemoForm({hello}: MemoFormProps){
+export default function MemoForm({handleAddMemo}: MemoFormProps){
     const [title,setTitle] = useState("")
     const [memoText,setMemoText] = useState("")
     return(
@@ -22,7 +22,7 @@ export default function MemoForm({hello}: MemoFormProps){
           placeholder="本文を入力" />
         <button
             onClick={() => {
-              hello(title,memoText),
+              handleAddMemo(title,memoText),
               setTitle(""),
               setMemoText("")
             }
