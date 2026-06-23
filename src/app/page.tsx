@@ -32,8 +32,25 @@ export default function Home() {
     const updateMemos = [...memos,newMemo]
     setMemos(updateMemos);
   }
+  function handleEditMemo(id:number){
+    const targetMemo = memos.find(memo => memo.id === id);
+    if(!targetMemo){return;}
+    const newTitle = prompt("タイトルを編集")
+    if(!newTitle){return;}
+    const updateMemos = memos.map(memo => {
+      if(memo.id !== id){
+        return memo;
+      }
+      return{
+        ...memo,
+        title:newTitle
+      }
+    })
+    console.log("updateMemos", updateMemos);
+    setMemos(updateMemos)
+  }
   function handleDelMemo(id:number){
-    const deletedMemos = memos.filter(memo => memo.id !== id)
+    const deletedMemos = memos.filter(memo => memo.id !== id);
     setMemos(deletedMemos)
   }
   return (
@@ -46,6 +63,7 @@ export default function Home() {
         id={memo.id}
         title={memo.title}
         memoText={memo.memoText}
+        handleEditMemo={handleEditMemo}
         handleDelMemo={handleDelMemo}
         />
       )
