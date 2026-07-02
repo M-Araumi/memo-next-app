@@ -4,13 +4,10 @@ import Header from "@/components/Header";
 import MemoForm from "@/components/MemoForm";
 import MemoCard from "@/components/MemoCard";
 import { useState, useEffect } from "react";
+import type { Memo } from "@/types/types";
 export default function Home() {
-  type Memo = {
-    id: number;
-    title: string;
-    memoText: string;
-  }
-  const [memos , setMemos] = useState<Memo[]>([])
+  const [memos,setMemos] = useState<Memo[]>([]);
+  const [editingMemo,setEditingMemo] = useState<Memo | null>(null);
 
   useEffect (() => {
     const data = localStorage.getItem("memos");
@@ -35,19 +32,7 @@ export default function Home() {
   function handleEditMemo(id:number){
     const targetMemo = memos.find(memo => memo.id === id);
     if(!targetMemo){return;}
-    const newTitle = prompt("タイトルを編集")
-    if(!newTitle){return;}
-    const updateMemos = memos.map(memo => {
-      if(memo.id !== id){
-        return memo;
-      }
-      return{
-        ...memo,
-        title:newTitle
-      }
-    })
-    console.log("updateMemos", updateMemos);
-    setMemos(updateMemos)
+    setEditingMemo(targetMemo)
   }
   function handleDelMemo(id:number){
     const deletedMemos = memos.filter(memo => memo.id !== id);
