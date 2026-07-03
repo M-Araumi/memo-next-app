@@ -26,7 +26,6 @@ export default function EditMemoForm({editingMemo,handleUpdateMemo,cancelEditMem
                 title,
                 memoText
               });
-              cancelEditMemo();
             }
           }>
             更新

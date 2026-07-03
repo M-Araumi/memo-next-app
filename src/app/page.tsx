@@ -2,8 +2,9 @@
 import styles from "./page.module.css"
 import Header from "@/components/Header";
 import MemoForm from "@/components/MemoForm";
+import EditMemoForm from "@/components/EditMemoForm";
 import MemoCard from "@/components/MemoCard";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo } from "react";
 import type { Memo } from "@/types/types";
 export default function Home() {
   const [memos,setMemos] = useState<Memo[]>([]);
@@ -38,6 +39,12 @@ export default function Home() {
     const deletedMemos = memos.filter(memo => memo.id !== id);
     setMemos(deletedMemos)
   }
+  function handleUpdateMemo(updatedMemo:Memo){
+    const updatedMemos = memos.map((memo) =>
+      memo.id === updatedMemo.id ? updatedMemo:memo);
+    setMemos(updatedMemos);
+    setEditingMemo(null);
+  }
   return (
     <div className={styles.page}>
       <Header />
@@ -52,7 +59,14 @@ export default function Home() {
         handleDelMemo={handleDelMemo}
         />
       )
-    )}
+      )}
+      {editingMemo && (
+        <EditMemoForm
+        editingMemo={editingMemo}
+        handleUpdateMemo={handleUpdateMemo}
+        cancelEditMemo={() => setEditingMemo(null)}
+        />
+      )}
     </div>
   );
 }
