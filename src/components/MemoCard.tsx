@@ -2,9 +2,9 @@ import style from "./MemoCard.module.css"
 type MemoCardProps = {
     title: string;
     memoText: string;
-    id: number;
-    handleEditMemo: (id: number) => void;
-    handleDelMemo: (id: number) => void;
+    id: string;
+    handleEditMemo: (id: string) => void;
+    handleDelMemo: (id: string) => void;
 
 }
     export default function MemoCard(props: MemoCardProps){

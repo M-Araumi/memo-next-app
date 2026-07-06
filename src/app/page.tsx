@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import MemoForm from "@/components/MemoForm";
 import EditMemoForm from "@/components/EditMemoForm";
 import MemoCard from "@/components/MemoCard";
-import { useState, useEffect, memo } from "react";
+import { useState, useEffect } from "react";
 import type { Memo } from "@/types/types";
 export default function Home() {
   const [memos,setMemos] = useState<Memo[]>([]);
@@ -23,19 +23,19 @@ export default function Home() {
 
   function handleAddMemo(title:string,memoText:string){
     const newMemo = {
-      id: memos.length + 1,
+      id: crypto.randomUUID(),
       title: title,
       memoText: memoText
     }
     const updateMemos = [...memos,newMemo]
     setMemos(updateMemos);
   }
-  function handleEditMemo(id:number){
+  function handleEditMemo(id:string){
     const targetMemo = memos.find(memo => memo.id === id);
     if(!targetMemo){return;}
     setEditingMemo(targetMemo)
   }
-  function handleDelMemo(id:number){
+  function handleDelMemo(id:string){
     const deletedMemos = memos.filter(memo => memo.id !== id);
     setMemos(deletedMemos)
   }
