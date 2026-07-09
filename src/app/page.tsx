@@ -5,38 +5,19 @@ import MemoForm from "@/components/MemoForm";
 import EditMemoForm from "@/components/EditMemoForm";
 import MemoCard from "@/components/MemoCard";
 import useMemos from "@/hooks/useMemos";
-// import { useState, useEffect } from "react";
 import type { Memo } from "@/types/types";
 export default function Home() {
   const {
     memos,
     editingMemo,
     setEditingMemo,
-    addMemo
+    addMemo,
+    deleteMemo,
+    updateMemo
   } = useMemos();
-  // const [memos,setMemos] = useState<Memo[]>([]);
-  // const [editingMemo,setEditingMemo] = useState<Memo | null>(null);
-
-  // useEffect (() => {
-  //   const data = localStorage.getItem("memos");
-  //   if(data){
-  //     setMemos(JSON.parse(data))
-  //   }
-  // },[]);
-
-  // useEffect (() => {
-  //   localStorage.setItem("memos",JSON.stringify(memos));
-  // },[memos]);
 
   function handleAddMemo(title:string,memoText:string){
     addMemo(title,memoText);
-    // const newMemo = {
-    //   id: crypto.randomUUID(),
-    //   title: title,
-    //   memoText: memoText
-    // }
-    // const updateMemos = [...memos,newMemo]
-    // setMemos(updateMemos);
   }
   function handleEditMemo(id:string){
     const targetMemo = memos.find(memo => memo.id === id);
@@ -44,14 +25,10 @@ export default function Home() {
     setEditingMemo(targetMemo)
   }
   function handleDelMemo(id:string){
-    const deletedMemos = memos.filter(memo => memo.id !== id);
-    // setMemos(deletedMemos)
+    deleteMemo(id)
   }
   function handleUpdateMemo(updatedMemo:Memo){
-    const updatedMemos = memos.map((memo) =>
-      memo.id === updatedMemo.id ? updatedMemo:memo);
-    // setMemos(updatedMemos);
-    setEditingMemo(null);
+    updateMemo(updatedMemo)
   }
   return (
     <div className={styles.page}>

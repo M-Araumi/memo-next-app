@@ -26,10 +26,21 @@ export default function useMemos(){
         setMemos(prev => [...prev, newMemo]);
     }
 
+    const deleteMemo = (id:string) => {
+        setMemos(prev => prev.filter(memo => memo.id != id))
+    }
+
+    const updateMemo =(updatedMemo:Memo) => {
+        setMemos(prev => prev.map(memo => memo.id === updatedMemo.id ? updatedMemo:memo))
+        setEditingMemo(null)
+    }
+
     return{
         memos,
         editingMemo,
         setEditingMemo,
-        addMemo
+        addMemo,
+        deleteMemo,
+        updateMemo
     };
 }
