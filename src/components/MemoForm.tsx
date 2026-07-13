@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react"
+import { validateAdd } from "@/validators/memoValidator";
 import styles from "./MemoForm.module.css"
 type MemoFormProps = {
   handleAddMemo: (
@@ -10,6 +11,7 @@ type MemoFormProps = {
 export default function MemoForm({handleAddMemo}: MemoFormProps){
     const [title,setTitle] = useState("")
     const [memoText,setMemoText] = useState("")
+    const [errorMessage,setErrorMessage] = useState("")
     return(
     <div className={styles.form}>
         <input
@@ -22,13 +24,22 @@ export default function MemoForm({handleAddMemo}: MemoFormProps){
           placeholder="本文を入力" />
         <button
             onClick={() => {
-              handleAddMemo(title,memoText),
-              setTitle(""),
-              setMemoText("")
+              try{
+                validateAdd(title,memoText);
+                setErrorMessage("");
+                handleAddMemo(title,memoText);
+                setTitle("");
+                setMemoText("");
+              }catch(error){
+                if(error instanceof Error){
+                  setErrorMessage(error.message)
+                }
+              }
             }
           }>
             追加
         </button>
+        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
     </div>
     )
 }
