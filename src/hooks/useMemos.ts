@@ -1,5 +1,6 @@
 "use client";
 import { useState,useEffect } from "react";
+import { validateDelete } from "@/validators/memoValidator";
 import type { Memo } from "@/types/types";
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
@@ -25,8 +26,8 @@ export default function useMemos(){
         };
         setMemos(prev => [...prev, newMemo]);
     }
-
     const deleteMemo = (id:string) => {
+        validateDelete(memos,id);
         setMemos(prev => prev.filter(memo => memo.id != id))
     }
 
