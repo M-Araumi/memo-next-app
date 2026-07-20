@@ -16,14 +16,14 @@ export function validateAdd(title:string,memoText:string){
     }
 }
 export function validateDelete(memos:Memo[],id:string){
-    const exits = memos.some(memo => (memo.id === id))
-    if(!exits){
+    const exists = memos.some(memo => (memo.id === id))
+    if(!exists){
         throw new Error("削除するメモが見つかりません")
     }
 }
 export function validateUpdate(memos:Memo[],id:string){
-    const exits = memos.some(memo => memo.id === id)
-    if(!exits){
+    const exists = memos.some(memo => memo.id === id)
+    if(!exists){
         throw new Error("更新するメモが見つかりません")
     }
 }

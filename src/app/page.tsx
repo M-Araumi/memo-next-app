@@ -16,9 +16,6 @@ export default function Home() {
     updateMemo
   } = useMemos();
 
-  function handleAddMemo(title:string,memoText:string){
-    addMemo(title,memoText);
-  }
   function handleEditMemo(id:string){
     const targetMemo = memos.find(memo => memo.id === id);
     if(!targetMemo){return;}
@@ -33,7 +30,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <Header />
-      <MemoForm handleAddMemo={handleAddMemo} />
+      <MemoForm handleAddMemo={addMemo} />
       {memos.map((memo) => (
         <MemoCard
         key={memo.id}

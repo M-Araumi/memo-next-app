@@ -9,6 +9,7 @@ type EditMemoFormProps = {
 export default function EditMemoForm({editingMemo,handleUpdateMemo,cancelEditMemo}:EditMemoFormProps){
     const [title,setTitle] = useState(editingMemo.title);
     const [memoText,setMemoText] = useState(editingMemo.memoText);
+    const [errorMessage,setErrorMessage] = useState("")
     return(
     <div>
         <input

@@ -8,11 +8,12 @@ type MemoCardProps = {
 
 }
     export default function MemoCard(props: MemoCardProps){
+        
     return(
         <div className={style.card}>
             <h2>{props.title}</h2>
             <p>{props.memoText}</p>
-            <button onClick={()=>props.handleEditMemo(props.id)}>
+            <button onClick={()=> props.handleEditMemo(props.id)}>
                 編集
             </button>
             <button onClick={()=>props.handleDelMemo(props.id)}>

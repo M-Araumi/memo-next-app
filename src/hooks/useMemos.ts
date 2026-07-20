@@ -1,6 +1,6 @@
 "use client";
 import { useState,useEffect } from "react";
-import { validateDelete } from "@/validators/memoValidator";
+import { validateDelete,validateUpdate } from "@/validators/memoValidator";
 import type { Memo } from "@/types/types";
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
@@ -28,10 +28,11 @@ export default function useMemos(){
     }
     const deleteMemo = (id:string) => {
         validateDelete(memos,id);
-        setMemos(prev => prev.filter(memo => memo.id != id))
+        setMemos(prev => prev.filter(memo => memo.id !== id))
     }
 
     const updateMemo =(updatedMemo:Memo) => {
+        validateUpdate(memos,updatedMemo.id)
         setMemos(prev => prev.map(memo => memo.id === updatedMemo.id ? updatedMemo:memo))
         setEditingMemo(null)
     }
