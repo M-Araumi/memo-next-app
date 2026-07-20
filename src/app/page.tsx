@@ -21,10 +21,7 @@ export default function Home() {
     if(!targetMemo){return;}
     setEditingMemo(targetMemo)
   }
-  
-  function handleUpdateMemo(updatedMemo:Memo){
-    updateMemo(updatedMemo)
-  }
+
   return (
     <div className={styles.page}>
       <Header />
@@ -43,7 +40,7 @@ export default function Home() {
       {editingMemo && (
         <EditMemoForm
         editingMemo={editingMemo}
-        handleUpdateMemo={handleUpdateMemo}
+        handleUpdateMemo={updateMemo}
         cancelEditMemo={() => setEditingMemo(null)}
         />
       )}
