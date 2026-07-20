@@ -5,7 +5,7 @@ import MemoForm from "@/components/MemoForm";
 import EditMemoForm from "@/components/EditMemoForm";
 import MemoCard from "@/components/MemoCard";
 import useMemos from "@/hooks/useMemos";
-import type { Memo } from "@/types/types";
+
 export default function Home() {
   const {
     memos,
