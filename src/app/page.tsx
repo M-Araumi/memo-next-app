@@ -21,9 +21,7 @@ export default function Home() {
     if(!targetMemo){return;}
     setEditingMemo(targetMemo)
   }
-  function handleDelMemo(id:string){
-    deleteMemo(id)
-  }
+  
   function handleUpdateMemo(updatedMemo:Memo){
     updateMemo(updatedMemo)
   }
@@ -38,7 +36,7 @@ export default function Home() {
         title={memo.title}
         memoText={memo.memoText}
         handleEditMemo={handleEditMemo}
-        handleDelMemo={handleDelMemo}
+        handleDelMemo={deleteMemo}
         />
       )
       )}
