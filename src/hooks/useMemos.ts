@@ -1,22 +1,12 @@
 "use client";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
 import type { Memo } from "@/types/types";
+import useLocalStorage from "./useLocalStorage";
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
+    useLocalStorage(memos,setMemos);
     const [ editingMemo,setEditingMemo ] = useState<Memo|null>(null) 
-
-    useEffect (() => {
-        const data = localStorage.getItem("memos");
-        if(data){
-            setMemos(JSON.parse(data))
-        }
-    },[]);
-
-    useEffect (() => {
-        localStorage.setItem("memos",JSON.stringify(memos));
-
-    },[memos]);
 
     const addMemo = (title: string, memoText:string) => {
         const newMemo = {
