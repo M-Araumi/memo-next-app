@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import type { Memo } from "@/types/types";
+import { validateMemo } from "@/validators/memoValidator";
+import styles from "./EditMemoForm.module.css";
 type EditMemoFormProps = {
     editingMemo: Memo;
     handleUpdateMemo: (memo:Memo) => void;
@@ -9,6 +11,7 @@ type EditMemoFormProps = {
 export default function EditMemoForm({editingMemo,handleUpdateMemo,cancelEditMemo}:EditMemoFormProps){
     const [title,setTitle] = useState(editingMemo.title);
     const [memoText,setMemoText] = useState(editingMemo.memoText);
+    const [errorMessage,setErrorMessage] = useState("")
     return(
     <div>
         <input
@@ -21,15 +24,24 @@ export default function EditMemoForm({editingMemo,handleUpdateMemo,cancelEditMem
           placeholder="本文" />
         <button
             onClick={() => {
-              handleUpdateMemo({
+              try{
+                validateMemo(title,memoText);
+                setErrorMessage("");
+                handleUpdateMemo({
                 id: editingMemo.id,
                 title,
                 memoText
-              });
+               });
+              }catch(error){
+                if(error instanceof Error){
+                  setErrorMessage(error.message)
+                }
+              }
             }
           }>
             更新
         </button>
+            {errorMessage && <p className={styles.error}>{errorMessage}</p>}
         <button
             onClick={() => {
                 cancelEditMemo();

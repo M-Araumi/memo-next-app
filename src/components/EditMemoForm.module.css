@@ -1,0 +1,14 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 400px;
+    align-items: center;
+}
+.form input,
+.form textarea{
+    width: 100%;
+}
+.form button{
+    width: fit-content;
+}
