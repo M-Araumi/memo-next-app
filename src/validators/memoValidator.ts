@@ -1,6 +1,6 @@
 import type { Memo } from "@/types/types"
 
-export function validateAdd(title:string,memoText:string){
+export function validateMemo(title:string,memoText:string){
     if(title.trim() === ""){
         throw new Error("タイトルを入力してください")
     }

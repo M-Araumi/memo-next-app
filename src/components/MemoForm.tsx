@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react"
-import { validateAdd } from "@/validators/memoValidator";
+import { validateMemo } from "@/validators/memoValidator";
 import styles from "./MemoForm.module.css"
 type MemoFormProps = {
   handleAddMemo: (
@@ -25,7 +25,7 @@ export default function MemoForm({handleAddMemo}: MemoFormProps){
         <button
             onClick={() => {
               try{
-                validateAdd(title,memoText);
+                validateMemo(title,memoText);
                 setErrorMessage("");
                 handleAddMemo(title,memoText);
                 setTitle("");
