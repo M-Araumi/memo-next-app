@@ -1,4 +1,5 @@
-import style from "./MemoCard.module.css"
+"use client";
+import styles from "./MemoCard.module.css";
 type MemoCardProps = {
     title: string;
     memoText: string;
@@ -8,15 +9,21 @@ type MemoCardProps = {
 
 }
     export default function MemoCard(props: MemoCardProps){
-        
     return(
-        <div className={style.card}>
+        <div className={styles.card}>
             <h2>{props.title}</h2>
             <p>{props.memoText}</p>
-            <button onClick={()=> props.handleEditMemo(props.id)}>
+            <button onClick={() => {
+                props.handleEditMemo(props.id)
+            }}
+            >
                 編集
             </button>
-            <button onClick={()=>props.handleDelMemo(props.id)}>
+            <button
+                onClick={() => {
+                    props.handleDelMemo(props.id);
+                }}
+            >
                 削除
             </button>
         </div>

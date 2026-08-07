@@ -10,6 +10,7 @@ export default function Home() {
   const {
     memos,
     editingMemo,
+    errorMessage,
     setEditingMemo,
     addMemo,
     deleteMemo,
@@ -37,6 +38,7 @@ export default function Home() {
         />
       )
       )}
+      {errorMessage && (<p className={styles.error}>{errorMessage}</p>)}
       {editingMemo && (
         <EditMemoForm
         editingMemo={editingMemo}
