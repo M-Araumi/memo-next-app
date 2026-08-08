@@ -11,7 +11,24 @@ export default function useLocalStorage(
         try{
             const data = localStorage.getItem("memos");
             if(data){
-                setMemos(JSON.parse(data))
+                const parsedData = JSON.parse(data);
+                const isArray = Array.isArray(parsedData);
+                if(isArray){
+                    const isValidMemo = parsedData.every((memo) => {
+                        return(
+                            typeof memo.id === "string" &&
+                            typeof memo.title === "string" &&
+                            typeof memo.memoText === "string"
+                        )
+                    })
+                    if(isValidMemo){
+                        setMemos(parsedData)
+                    }else{
+                        setErrorMessage("LocalStorageの項目の形式が不正です")
+                    }
+                }else{
+                    setErrorMessage("LocalStorageが配列ではありません")
+                }
             }
         }catch(error){
             if(error instanceof Error){
@@ -27,7 +44,6 @@ export default function useLocalStorage(
 
     useEffect (() => {
         if(!isLoaded) return;
-
         localStorage.setItem("memos",JSON.stringify(memos));
 
     },[memos,isLoaded]);

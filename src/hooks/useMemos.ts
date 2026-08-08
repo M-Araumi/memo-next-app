@@ -5,7 +5,8 @@ import type { Memo } from "@/types/types";
 import useLocalStorage from "./useLocalStorage";
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
-    useLocalStorage(memos,setMemos);
+    const [errorMessage,setErrorMessage] = useState("")        
+    useLocalStorage(memos,setMemos,setErrorMessage);
     const [ editingMemo,setEditingMemo ] = useState<Memo|null>(null) 
 
     const addMemo = (title: string, memoText:string) => {
