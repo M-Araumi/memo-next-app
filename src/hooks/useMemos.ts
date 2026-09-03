@@ -1,11 +1,28 @@
 "use client";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
-import type { Memo } from "@/types/types";
-import useLocalStorage from "./useLocalStorage";
+import type { Memo, ApiMemo } from "@/types/types";
+
+
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
-    useLocalStorage(memos,setMemos);
+
+    useEffect(() => {
+    const fetchMemos = async () => {
+        const response = await fetch("http://localhost:3000/memos");
+        const data: ApiMemo[] = await response.json();
+
+        const memos: Memo[] = data.map(memo => ({
+            id: memo.id,
+            title: memo.title,
+            memoText: memo.memo_text
+        }));
+
+        setMemos(memos);
+    };
+    fetchMemos();
+    }, []);
+
     const [ editingMemo,setEditingMemo ] = useState<Memo|null>(null) 
 
     const addMemo = (title: string, memoText:string) => {
