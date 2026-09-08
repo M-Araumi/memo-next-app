@@ -42,22 +42,33 @@ export default function useMemos(){
             title:data.title,
             memoText: data.memo_text
         };
-    //     const newMemo = {
-    //         id: crypto.randomUUID(),
-    //         title: title,
-    //         memoText: memoText
-    //     };
         setMemos(prev => [...prev, newMemo]);
     }
+
+    const updateMemo =async(updatedMemo:Memo) => {
+        const response = await fetch(`http://localhost:3000/memos/${updatedMemo.id}`,{
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                title: updatedMemo.title,
+                memoText: updatedMemo.memoText,
+            }),
+        });
+        const data: ApiMemo = await response.json();
+        const updateMemo = {
+            id: data.id,
+            title:data.title,
+            memoText: data.memo_text
+        };
+        setMemos(prev => prev.map(memo => memo.id === updateMemo.id ? updateMemo:memo))
+        setEditingMemo(null)
+    }
+
     const deleteMemo = (id:string) => {
         validateDelete(memos,id);
         setMemos(prev => prev.filter(memo => memo.id !== id))
-    }
-
-    const updateMemo =(updatedMemo:Memo) => {
-        validateUpdate(memos,updatedMemo.id)
-        setMemos(prev => prev.map(memo => memo.id === updatedMemo.id ? updatedMemo:memo))
-        setEditingMemo(null)
     }
 
     return{
