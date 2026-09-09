@@ -66,8 +66,10 @@ export default function useMemos(){
         setEditingMemo(null)
     }
 
-    const deleteMemo = (id:string) => {
-        validateDelete(memos,id);
+    const deleteMemo = async(id:string) => {
+        const response = await fetch(`http://localhost:3000/memos/${id}`,{
+            method: "DELETE"
+        });
         setMemos(prev => prev.filter(memo => memo.id !== id))
     }
 
