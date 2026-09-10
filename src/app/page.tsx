@@ -13,7 +13,8 @@ export default function Home() {
     setEditingMemo,
     addMemo,
     deleteMemo,
-    updateMemo
+    updateMemo,
+    isLoading
   } = useMemos();
 
   function handleEditMemo(id:string){
@@ -26,6 +27,7 @@ export default function Home() {
     <div className={styles.page}>
       <Header />
       <MemoForm handleAddMemo={addMemo} />
+      {isLoading && <p>Loading...</p>}
       {memos.map((memo) => (
         <MemoCard
         key={memo.id}
