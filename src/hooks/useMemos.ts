@@ -11,15 +11,18 @@ export default function useMemos(){
     useEffect(() => {
     const fetchMemos = async () => {
         setIsLoading(true);
-        const response = await fetch("http://localhost:3000/memos");
-        const data: ApiMemo[] = await response.json();
-        const memos: Memo[] = data.map(memo => ({
-            id: memo.id,
-            title: memo.title,
-            memoText: memo.memo_text
-        }));
-        setMemos(memos);
-        setIsLoading(false);
+        try{
+            const response = await fetch("http://localhost:3000/memos");
+            const data: ApiMemo[] = await response.json();
+            const memos: Memo[] = data.map(memo => ({
+                id: memo.id,
+                title: memo.title,
+                memoText: memo.memo_text
+            }));
+            setMemos(memos);
+        }finally{
+            setIsLoading(false);
+        }
     };
     fetchMemos();
     }, []);
@@ -28,56 +31,65 @@ export default function useMemos(){
 
     const addMemo = async(title: string, memoText:string) => {
         setIsLoading(true);
-        const response = await fetch("http://localhost:3000/memos",{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title,
-                memoText,
-            }),
-        });
-        const data: ApiMemo = await response.json();
-        const newMemo = {
-            id: data.id,
-            title:data.title,
-            memoText: data.memo_text
-        };
-        setMemos(prev => [...prev, newMemo]);
-        setIsLoading(false);
+        try{
+            const response = await fetch("http://localhost:3000/memos",{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title,
+                    memoText,
+                }),
+            });
+            const data: ApiMemo = await response.json();
+            const newMemo = {
+                id: data.id,
+                title:data.title,
+                memoText: data.memo_text
+            };
+            setMemos(prev => [...prev, newMemo]);
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     const updateMemo =async(updatedMemo:Memo) => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:3000/memos/${updatedMemo.id}`,{
-            method: "PATCH",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                title: updatedMemo.title,
-                memoText: updatedMemo.memoText,
-            }),
-        });
-        const data: ApiMemo = await response.json();
-        const updateMemo = {
-            id: data.id,
-            title:data.title,
-            memoText: data.memo_text
-        };
-        setMemos(prev => prev.map(memo => memo.id === updateMemo.id ? updateMemo:memo))
-        setEditingMemo(null)
-        setIsLoading(false);
+        try{
+            const response = await fetch(`http://localhost:3000/memos/${updatedMemo.id}`,{
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: updatedMemo.title,
+                    memoText: updatedMemo.memoText,
+                }),
+            });
+                const data: ApiMemo = await response.json();
+                const updateMemo = {
+                id: data.id,
+                title:data.title,
+                memoText: data.memo_text
+            };
+            setMemos(prev => prev.map(memo => memo.id === updateMemo.id ? updateMemo:memo))
+            setEditingMemo(null)
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     const deleteMemo = async(id:string) => {
         setIsLoading(true);
-        const response = await fetch(`http://localhost:3000/memos/${id}`,{
-            method: "DELETE"
-        });
-        setMemos(prev => prev.filter(memo => memo.id !== id))
-        setIsLoading(false);
+        try{
+            const response = await fetch(`http://localhost:3000/memos/${id}`,{
+                method: "DELETE"
+            });
+            setMemos(prev => prev.filter(memo => memo.id !== id))
+        }finally{
+            setIsLoading(false);
+        }
     }
 
     return{
