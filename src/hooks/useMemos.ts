@@ -14,7 +14,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch("http://localhost:3000/memos");
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`);
             if(!response.ok){
                 throw new Error("メモの取得に失敗しました")
             }
@@ -42,7 +42,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch("http://localhost:3000/memos",{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`http://localhost:3000/memos/${updatedMemo.id}`,{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${updatedMemo.id}`,{
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -109,7 +109,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`http://localhost:3000/memos/${id}`,{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${id}`,{
                 method: "DELETE"
             });
             if(!response.ok){
