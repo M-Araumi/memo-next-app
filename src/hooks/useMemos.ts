@@ -6,13 +6,18 @@ import type { Memo, ApiMemo } from "@/types/types";
 
 export default function useMemos(){
     const [ memos,setMemos ] = useState<Memo[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [ isLoading,setIsLoading ] = useState(false);
+    const [ errorMessage,setErrorMessage ] = useState("");
 
     useEffect(() => {
     const fetchMemos = async () => {
         setIsLoading(true);
+        setErrorMessage("");
         try{
-            const response = await fetch("http://localhost:3000/memos");
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`);
+            if(!response.ok){
+                throw new Error("メモの取得に失敗しました")
+            }
             const data: ApiMemo[] = await response.json();
             const memos: Memo[] = data.map(memo => ({
                 id: memo.id,
@@ -20,6 +25,10 @@ export default function useMemos(){
                 memoText: memo.memo_text
             }));
             setMemos(memos);
+        }catch(error){
+            if(error instanceof Error){
+                setErrorMessage(error.message);
+            }
         }finally{
             setIsLoading(false);
         }
@@ -31,8 +40,9 @@ export default function useMemos(){
 
     const addMemo = async(title: string, memoText:string) => {
         setIsLoading(true);
+        setErrorMessage("");
         try{
-            const response = await fetch("http://localhost:3000/memos",{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`,{
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,6 +52,9 @@ export default function useMemos(){
                     memoText,
                 }),
             });
+            if(!response.ok){
+                throw new Error("メモの追加に失敗しました")
+            }
             const data: ApiMemo = await response.json();
             const newMemo = {
                 id: data.id,
@@ -49,6 +62,10 @@ export default function useMemos(){
                 memoText: data.memo_text
             };
             setMemos(prev => [...prev, newMemo]);
+        }catch(error){
+            if(error instanceof Error){
+                setErrorMessage(error.message);
+            }
         }finally{
             setIsLoading(false);
         }
@@ -56,8 +73,9 @@ export default function useMemos(){
 
     const updateMemo =async(updatedMemo:Memo) => {
         setIsLoading(true);
+        setErrorMessage("");
         try{
-            const response = await fetch(`http://localhost:3000/memos/${updatedMemo.id}`,{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${updatedMemo.id}`,{
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,6 +85,9 @@ export default function useMemos(){
                     memoText: updatedMemo.memoText,
                 }),
             });
+            if(!response.ok){
+                throw new Error("メモの更新に失敗しました")
+            }
                 const data: ApiMemo = await response.json();
                 const updateMemo = {
                 id: data.id,
@@ -75,6 +96,10 @@ export default function useMemos(){
             };
             setMemos(prev => prev.map(memo => memo.id === updateMemo.id ? updateMemo:memo))
             setEditingMemo(null)
+        }catch(error){
+            if(error instanceof Error){
+                setErrorMessage(error.message);
+            }
         }finally{
             setIsLoading(false);
         }
@@ -82,11 +107,19 @@ export default function useMemos(){
 
     const deleteMemo = async(id:string) => {
         setIsLoading(true);
+        setErrorMessage("");
         try{
-            const response = await fetch(`http://localhost:3000/memos/${id}`,{
+            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${id}`,{
                 method: "DELETE"
             });
+            if(!response.ok){
+                throw new Error("メモの削除に失敗しました")
+            }
             setMemos(prev => prev.filter(memo => memo.id !== id))
+        }catch(error){
+            if(error instanceof Error){
+                setErrorMessage(error.message)
+            }
         }finally{
             setIsLoading(false);
         }
@@ -96,6 +129,7 @@ export default function useMemos(){
         memos,
         editingMemo,
         isLoading,
+        errorMessage,
         setEditingMemo,
         addMemo,
         deleteMemo,
