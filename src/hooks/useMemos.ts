@@ -1,6 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
+import { getMemos } from "@/api/memos";
 import type { Memo, ApiMemo } from "@/types/types";
 
 
@@ -14,11 +15,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`);
-            if(!response.ok){
-                throw new Error("メモの取得に失敗しました")
-            }
-            const data: ApiMemo[] = await response.json();
+            const data = await getMemos();
             const memos: Memo[] = data.map(memo => ({
                 id: memo.id,
                 title: memo.title,
