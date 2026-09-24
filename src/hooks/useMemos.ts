@@ -1,7 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
-import { getMemos,createMemo } from "@/api/memos";
+import { getMemosApi,createMemoApi,updateMemoApi } from "@/api/memos";
 import type { Memo, ApiMemo } from "@/types/types";
 
 
@@ -15,7 +15,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const data = await getMemos();
+            const data = await getMemosApi();
             const memos: Memo[] = data.map(memo => ({
                 id: memo.id,
                 title: memo.title,
@@ -39,7 +39,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const data = await createMemo(title,memoText);
+            const data = await createMemoApi(title,memoText);
             const newMemo = {
                 id: data.id,
                 title:data.title,
@@ -59,21 +59,8 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${updatedMemo.id}`,{
-                method: "PATCH",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title: updatedMemo.title,
-                    memoText: updatedMemo.memoText,
-                }),
-            });
-            if(!response.ok){
-                throw new Error("メモの更新に失敗しました")
-            }
-                const data: ApiMemo = await response.json();
-                const updateMemo = {
+            const data = await updateMemoApi(updatedMemo);
+            const updateMemo = {
                 id: data.id,
                 title:data.title,
                 memoText: data.memo_text
