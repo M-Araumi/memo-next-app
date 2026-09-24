@@ -1,7 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
-import { getMemos } from "@/api/memos";
+import { getMemos,createMemo } from "@/api/memos";
 import type { Memo, ApiMemo } from "@/types/types";
 
 
@@ -39,20 +39,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos`,{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    title,
-                    memoText,
-                }),
-            });
-            if(!response.ok){
-                throw new Error("メモの追加に失敗しました")
-            }
-            const data: ApiMemo = await response.json();
+            const data = await createMemo(title,memoText);
             const newMemo = {
                 id: data.id,
                 title:data.title,
