@@ -1,7 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
 import { validateDelete,validateUpdate } from "@/validators/memoValidator";
-import { getMemosApi,createMemoApi,updateMemoApi } from "@/api/memos";
+import { getMemosApi,createMemoApi,updateMemoApi,deleteMemoApi } from "@/api/memos";
 import type { Memo, ApiMemo } from "@/types/types";
 
 
@@ -80,12 +80,7 @@ export default function useMemos(){
         setIsLoading(true);
         setErrorMessage("");
         try{
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${id}`,{
-                method: "DELETE"
-            });
-            if(!response.ok){
-                throw new Error("メモの削除に失敗しました")
-            }
+            await deleteMemoApi(id);
             setMemos(prev => prev.filter(memo => memo.id !== id))
         }catch(error){
             if(error instanceof Error){

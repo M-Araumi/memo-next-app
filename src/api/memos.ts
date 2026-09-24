@@ -1,5 +1,4 @@
 import type { Memo,ApiMemo } from "@/types/types";
-import { promises } from "dns";
 
 export async function getMemosApi(): Promise<ApiMemo[]> {
     const response = await fetch(
@@ -46,4 +45,17 @@ export async function updateMemoApi( memo:Memo): Promise<ApiMemo> {
     }
     const data: ApiMemo = await response.json();
     return data;
+}
+
+export async function deleteMemoApi(id: string): Promise<void> {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/memos/${id}`,
+        {
+            method: "DELETE",
+        }
+    );
+
+    if (!response.ok) {
+        throw new Error("メモの削除に失敗しました");
+    }
 }
